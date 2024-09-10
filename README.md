@@ -1,5 +1,5 @@
 ## CMS
-Project where trying to learn and create wordpress styled back-end in go, where
+Project where trying to learn and create wordpress or typical cms styled back-end in go, where
 webpages is created in some kind of editor and pages are managed in
 server side rendering
 
