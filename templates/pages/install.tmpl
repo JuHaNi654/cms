@@ -1,0 +1,30 @@
+{{ define "content" }}
+  <div class="form-container"> 
+    <h1>Install CMS</h1>
+    <form id="register" hx-target="#messages" hx-post="/install"
+      hx-swap="innerHTML"> 
+      <div class="input">
+        <label for="firstname">Firstname</label>
+        <input type="text" id="firstname" name="firstname"/>
+      </div>
+      <div class="input">
+        <label for="lastname">Lastname</label>
+        <input type="text" id="lastname" name="lastname"/>
+      </div>
+      <div class="input">
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email"/>
+      </div>
+      <div class="input">
+        <label for="password">Set password</label>
+        <input type="password" id="password" name="password"/>
+      </div> 
+      <div class="input">
+        <label for="repassword">Re-type password</label>
+        <input type="password" id="repassword" name="repassword"/>
+      </div>
+      <div id="messages" class="error-messages"></div>
+      <button class="button" type="submit">Install</button>
+    </form>
+  </div>
+{{ end }}

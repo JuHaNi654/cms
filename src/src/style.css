@@ -1,0 +1,284 @@
+*, *::after, *::before {
+margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-1: #6b9080;
+  --color-2: #a4c3b2;
+  --color-3: #cce3de;
+  --color-4: #eaf4f4;
+  --color-5: #f6fff8;
+
+  --color-red-700: #b22222;
+  --color-white: #ffffff;
+
+  --font-body: "Poppins", sans-serif;
+
+  --container-width: min(100%, 144rem);
+}
+
+html, body {
+  font-size: 10px;
+  height: 100%;
+  font-family: var(--font-body);
+}
+
+body {
+  padding: 0 1rem;
+}
+
+.body-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+main { 
+  align-items: stretch;
+  display: flex;
+  flex: 1;
+}
+
+/* Elements */
+.input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+
+  label {
+    font-size: 1.6rem;
+    font-weight: 500;
+  }
+
+  input {
+    border: none;
+    border-bottom: 1px solid black;
+    font-size: 1.6rem;
+  }
+}
+
+.button,
+input[type="submit"] {
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-family: var(--font-body);
+  text-decoration: none;
+  padding: 1rem 1.6rem;
+}
+
+.header { 
+  align-items: center;
+  background-color: var(--color-3);
+  border-radius: 4rem;
+  display: flex; 
+  height: 6rem;
+  justify-content: space-between; 
+  margin: 1.6rem auto;
+  overflow: hidden;
+  width: min(100%, 144rem);
+}
+
+.header__message {
+  display: block;
+  font-weight: 500;
+  flex: 1;
+  font-size: 1.6rem;
+  margin-left: 1.6rem;
+}
+
+.header-button-group {
+  display: flex;
+}
+
+.header__button {
+  aspect-ratio: 1/1; 
+  border: none;
+  background: transparent; 
+  cursor: pointer;
+  padding: 1rem;
+  transition: background-color 150ms ease;
+  width: 6rem; 
+}
+
+.header__button:hover,
+.header__button:focus {
+  background-color: var(--color-4);
+}
+
+.header__button svg {
+  stroke: #000000;
+  fill: none;
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  max-width: var(--container-width);
+  width: 100%;
+  margin: 0 auto;
+}
+
+.table {
+  margin-top: 1.6rem;
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse; 
+  
+  thead {
+    border-bottom: 3px solid #000000;
+  }
+
+  thead th {
+    font-size: 1.8rem;
+    font-weight: 500;
+    padding: 0 0.5rem 0.4rem 0;
+  }
+
+  tbody th,
+  tbody td { 
+    font-size: 1.4rem;
+    font-weight: 400;
+    padding: 0.5rem 0.5rem 0.5rem 0;
+  }
+
+
+  tbody th {
+    width: 100%;
+  }
+
+  a {
+    text-decoration: none;
+    color: #000000;
+    display: block;
+  }
+}
+
+.error-messages {
+  ul {
+    list-style: none;
+    background-color: var(--color-red-700);
+    color: var(--color-white);
+    font-size: 1.6rem;
+    padding: 0.4rem 0.75rem;
+    margin: 1rem 0;
+  }
+} 
+
+
+/* Pages */
+.form-container {
+  width: min(100%, 40rem);
+  padding: 1rem;
+  margin: auto;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+
+  h1 {
+    font-size: 3.2rem;
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+.highlight-widget {
+  background-color: var(--color-4);
+  padding: 1rem 1.6rem;
+  border-radius: 1rem;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h2 {
+      font-size: 3.2rem;
+      font-weight: 500;
+    }
+
+    .button {
+      font-size: 1.4rem;
+      font-weight: 500;
+      background-color: var(--color-1);
+      color: var(--color-5);
+      border-radius: 2.5rem;
+    }
+  }
+}
+
+.editor-area {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  border: 2px solid black;
+}
+
+.editor__item {
+  position: relative;
+  transition-duration: 200ms;
+  transition-property: width, height;
+
+  /* Test, remove after */
+  width: 100%;
+  height: 20rem;
+  background: crimson;
+  color: white;
+  display: grid;
+  place-items: center;
+}
+
+.editor__item-toolbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  background: #ffffff;
+  z-index: 3;
+}
+
+.editor__item-toolbox-move {
+  aspect-ratio: 1/1;
+  cursor: pointer;
+  width: 3.5rem;
+  border: none;
+  padding: 0.5rem;
+}
+
+.editor__item-toolbox-move svg {
+  fill: none; 
+  stroke: #000000;
+  width: 100%;
+  height: 100%;
+}
+
+/* Drag event styles */ 
+.drag-active {
+  width: 3.5rem;
+  height: 3.5rem;
+  overflow: hidden;
+}
+
+.drag-drop-zone::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  opacity: 0.85;
+  background: #A9A9A9;
+}
+
+
+

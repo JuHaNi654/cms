@@ -1,0 +1,9 @@
+package partials
+
+templ FormErrors(items []string) {
+  <ul>
+    for _, item := range items {
+      <li>{item}</li>
+    }
+  </ul>
+}
