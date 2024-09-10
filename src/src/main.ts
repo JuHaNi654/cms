@@ -1,8 +1,6 @@
 import './style.css'
 import htmx from "htmx.org"
 
-console.log("Vitejs loaded")
-
 declare global {
   interface Window {
     htmx: typeof htmx;
@@ -12,14 +10,16 @@ declare global {
 window.htmx = htmx
 //htmx.logAll()
 
+type DragAreaFunction = (item: DragItem) => void
+
 /* Drag and Drop scripts */
 class DragItem {
   elem: Element
   toolbox: HTMLElement
   dragBtn?: HTMLButtonElement
-  cbDragStart: Function 
-  cbDragEnd: Function
-  cbMoveItem: Function
+  cbDragStart: DragAreaFunction
+  cbDragEnd: DragAreaFunction
+  cbMoveItem: DragAreaFunction
   dragging = false
 
   prevItem: DragItem | undefined
@@ -27,8 +27,8 @@ class DragItem {
 
   constructor(
     element: Element, 
-    parentDragStart: Function, parentDragEnd: Function,
-    moveItem: Function
+    parentDragStart: DragAreaFunction, parentDragEnd: DragAreaFunction,
+    moveItem: DragAreaFunction
   ) {
     this.elem = element
     this.toolbox = element.querySelector('[data-target="toolbox"]') as HTMLElement 
@@ -46,7 +46,6 @@ class DragItem {
   }
 
   setDragOn = () => {
-    console.log("On")
     this.elem.setAttribute("draggable", "true")
     this.elem.classList.add("drag-active")
     this.dragging = true
@@ -65,7 +64,6 @@ class DragItem {
   }
 
   setDragOff = () => {
-    console.log("Off")
     this.elem.setAttribute("draggable", "false")
     this.elem.classList.remove("drag-active") 
     this.dragging = false 
@@ -80,7 +78,6 @@ class DragItem {
     const x = this.dragBtn!.offsetWidth / 2 
     const y = this.dragBtn!.offsetHeight / 2
     e.dataTransfer?.setDragImage(this.dragBtn as HTMLButtonElement, x, y) 
-    console.log(e)
   }
 
   onDragEnd = (_: DragEvent) => {
@@ -150,12 +147,64 @@ class DragArea {
     }
   }
 
-  moveItem = (target: Element) => {
+  moveItem = (target: DragItem) => {
     if (!this.activeItem) return
+    target.elem.before(this.activeItem.elem) 
 
+    // Check if we are moving first item in the list 
+    let node = this.items
 
-    console.log("Moving target: ", this.activeItem)
-    console.log("Drop target: ", target)
+    while (node) { 
+      // Remove activeItem from list 
+      if (this.activeItem === node) {
+        if (this.activeItem === this.items) {
+          const nextTmp = this.activeItem.nextItem
+          nextTmp!.prevItem = undefined 
+          this.items = nextTmp 
+          this.activeItem.nextItem = undefined
+        } else {
+          const nextTmp = this.activeItem.nextItem
+          const prevTmp = this.activeItem.prevItem
+         
+          if (nextTmp) {
+            nextTmp.prevItem = prevTmp
+          }
+          prevTmp!.nextItem = nextTmp
+
+          this.activeItem.prevItem = this.activeItem.nextItem = undefined
+        } 
+      }
+
+      node = node.nextItem
+    }
+
+    node = this.items 
+
+    while (node) {
+      if (target === node) {
+        if (target === this.items) {
+          node.prevItem = this.activeItem
+          this.activeItem.nextItem = node
+          this.items = this.activeItem
+        } else {
+          const tmpPrev = node.prevItem
+          node.prevItem = this.activeItem
+          tmpPrev!.nextItem = this.activeItem
+          this.activeItem.nextItem = node 
+          this.activeItem.prevItem = tmpPrev
+        }
+      }
+      node = node.nextItem
+    }
+
+  }
+
+  logNodes = () => {
+    let node = this.items 
+    while (node) { 
+      console.log("Node: ", node)
+      node = node.nextItem
+    }
   }
 
   init = (): this => {
