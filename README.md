@@ -18,6 +18,9 @@ npm run dev
 ```
 
 #### Run back-end scripts in development mode
+Note: Vite must be in running to get scripts and styles in development
+mode
+
 ```bash
 go mod tidy
 ```
